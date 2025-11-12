@@ -1,4 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 export default function LoginPage() {
   return (
@@ -8,9 +11,9 @@ export default function LoginPage() {
         <section className="hidden md:block">
           <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/40 p-2">
             <div className="relative h-[72vh] overflow-hidden rounded-2xl">
-              {/* Troca o src pela tua imagem em /public (ex: /forest.jpg) */}
+              {/* agora usando a imagem forest.png */}
               <Image
-                src="/forest.jpg"
+                src="/forest.png"
                 alt="Foco - plano de fundo"
                 fill
                 className="object-cover"
@@ -37,57 +40,36 @@ export default function LoginPage() {
             <h1 className="text-3xl font-semibold tracking-tight">Entrar na conta</h1>
             <p className="mt-1 text-sm text-zinc-400">
               Você não tem uma conta?{" "}
-              <a href="/register" className="text-[#b6ff00] hover:underline">
+              <Link href="/register" className="text-[#b6ff00] hover:underline">
                 Registrar-se
-              </a>
+              </Link>
             </p>
           </header>
 
           <form className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="voce@email.com"
-                className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 text-sm outline-none ring-0 focus:border-zinc-700 focus:ring-2 focus:ring-[#b6ff00]"
-              />
+              <label htmlFor="email" className="text-sm">Email</label>
+              <Input id="email" type="email" placeholder="seu-email@email.com" />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm">
-                Senha
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 text-sm outline-none ring-0 focus:border-zinc-700 focus:ring-2 focus:ring-[#b6ff00]"
-              />
+              <label htmlFor="password" className="text-sm">Senha</label>
+              <Input id="password" type="password" placeholder="••••••••" />
             </div>
 
-            <button
-              type="submit"
-              className="mt-2 h-11 w-full rounded-full bg-[#b6ff00] font-semibold text-black transition hover:opacity-90 active:scale-[.99]"
-            >
+            <Button type="submit" full>
               Entrar
-            </button>
+            </Button>
 
             <div className="py-2 text-center text-sm">
-              <a href="#" className="text-zinc-400 hover:underline">
+              <Link href="/reset" className="text-zinc-400 hover:underline">
                 Recuperar a senha →
-              </a>
+              </Link>
             </div>
 
             <div className="my-4 h-px w-full bg-zinc-800" />
 
-            <button
-              type="button"
-              className="flex h-11 w-full items-center justify-center gap-2 rounded-full border border-zinc-800 bg-zinc-900 text-sm transition hover:bg-zinc-800/70"
-            >
-              {/* Ícone do Google opcional em /public/google.svg */}
+            <Button type="button" variant="ghost" full className="gap-2">
               <Image
                 src="/google.svg"
                 alt="Google"
@@ -96,12 +78,10 @@ export default function LoginPage() {
                 className="opacity-90"
               />
               Entrar com o Google
-            </button>
+            </Button>
           </form>
         </section>
       </div>
-
-      {/* VERSÃO MOBILE – layout de uma coluna já coberto pelo grid (card some) */}
     </main>
   );
 }

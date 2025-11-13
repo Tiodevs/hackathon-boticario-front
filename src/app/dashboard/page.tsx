@@ -1,5 +1,8 @@
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+
 export default function DashboardPage() {
   return (
+    <ProtectedRoute>
     <main className="min-h-dvh bg-[#0b0b0b] text-zinc-50 px-6 py-10">
       <div className="mx-auto w-full max-w-4xl">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
@@ -14,5 +17,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </main>
+    </ProtectedRoute>
   );
 }

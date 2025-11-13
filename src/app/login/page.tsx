@@ -1,9 +1,52 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { postJSON } from "@/util/api";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login: setAuthUser } = useAuth();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [msg, setMsg] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'ok' | 'err'>('idle');
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    try {
+      setStatus('loading');
+      setMsg('');
+
+      // chama a rota mock do login
+      const data = await postJSON('/api/auth/login', { email, password });
+      console.log('Resposta do servidor:', data);
+
+      // salva usuário no contexto (usa o que vier da API, senão cai no email)
+      const user = data?.user ?? { email };
+      setAuthUser(user);
+
+      setStatus('ok');
+      setMsg('Login efetuado com sucesso!');
+
+      // redireciona para o dashboard
+      router.push('/dashboard');
+    } catch (err: any) {
+      setStatus('err');
+      setMsg(err?.message || 'Falha no login');
+    } finally {
+      setTimeout(() => setStatus('idle'), 4000);
+    }
+  }
+
   return (
     <main className="min-h-dvh bg-[#0b0b0b] text-zinc-50 px-4 py-8">
       <div className="mx-auto w-full max-w-6xl md:grid md:grid-cols-2 md:gap-10">
@@ -11,7 +54,6 @@ export default function LoginPage() {
         <section className="hidden md:block">
           <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/40 p-2">
             <div className="relative h-[72vh] overflow-hidden rounded-2xl">
-              {/* agora usando a imagem forest.png */}
               <Image
                 src="/forest.png"
                 alt="Foco - plano de fundo"
@@ -19,7 +61,6 @@ export default function LoginPage() {
                 className="object-cover"
                 priority
               />
-              {/* overlay + cantos arredondados */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
               <div className="absolute left-6 top-6 text-lg font-semibold">
                 <span className="mr-2 rounded-md bg-black/60 px-2 py-1">⚡</span>
@@ -46,20 +87,50 @@ export default function LoginPage() {
             </p>
           </header>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={onSubmit} noValidate>
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm">Email</label>
-              <Input id="email" type="email" placeholder="seu-email@email.com" />
+              <Input
+                id="email"
+                type="email"
+                placeholder="seu-email@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm">Senha</label>
-              <Input id="password" type="password" placeholder="••••••••" />
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
 
-            <Button type="submit" full>
-              Entrar
+            <Button
+              type="submit"
+              full
+              disabled={status === 'loading'}
+            >
+              {status === 'loading' ? 'Entrando…' : 'Entrar'}
             </Button>
+
+            {msg && (
+              <p
+                role="status"
+                aria-live="polite"
+                className={`text-sm mt-2 rounded-md border px-3 py-2 ${
+                  status === 'ok'
+                    ? 'border-lime-500/40 bg-lime-500/10 text-lime-300'
+                    : 'border-red-500/40 bg-red-500/10 text-red-300'
+                }`}
+              >
+                {msg}
+              </p>
+            )}
 
             <div className="py-2 text-center text-sm">
               <Link href="/reset" className="text-zinc-400 hover:underline">

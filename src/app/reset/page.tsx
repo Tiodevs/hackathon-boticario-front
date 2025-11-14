@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { postJSON } from '@/util/api';
 
 export default function ResetPage() {
   const [email, setEmail] = useState('');
@@ -13,12 +14,29 @@ export default function ResetPage() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus('loading');
-    setMsg('');
-    await new Promise((r) => setTimeout(r, 800)); // mock por enquanto
-    setStatus('ok');
-    setMsg('Se o e-mail existir, enviaremos instruções de redefinição.');
-    setTimeout(() => setStatus('idle'), 4000);
+
+    // ✅ validação ANTES de chamar a API
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setStatus('err');
+      setMsg('E-mail inválido.');
+      return; // não chama a API com e-mail torto
+    }
+
+    try {
+      setStatus('loading');
+      setMsg('');
+
+      // ✅ chama a rota mock de reset
+      await postJSON('/api/auth/request-password-reset', { email });
+
+      setStatus('ok');
+      setMsg('Se o e-mail existir, enviaremos instruções de redefinição.');
+    } catch (err: any) {
+      setStatus('err');
+      setMsg(err?.message || 'Falhou ao enviar. Tente novamente.');
+    } finally {
+      setTimeout(() => setStatus('idle'), 4000);
+    }
   }
 
   return (

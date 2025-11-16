@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/Input";
 import { postJSON } from "@/util/api";
 import { useAuth } from "@/context/AuthContext";
 import { RedirectIfAuth } from "@/components/auth/RedirectIfAuth";
+import { AuthSideCard } from "@/components/auth/AuthSideCard"; // ⬅️ novo import
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,7 +19,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">(
+    "idle"
+  );
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,38 +52,22 @@ export default function LoginPage() {
     <RedirectIfAuth>
       <main className="min-h-dvh bg-[#0b0b0b] text-zinc-50 px-4 py-8">
         <div className="mx-auto w-full max-w-6xl md:grid md:grid-cols-2 md:gap-10">
-          {/* CARD DA FOTO – esconde no mobile */}
-          <section className="hidden md:block">
-            <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/40 p-2">
-              <div className="relative h-[72vh] overflow-hidden rounded-2xl">
-                <Image
-                  src="/forest.png"
-                  alt="Foco - plano de fundo"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-                <div className="absolute left-6 top-6 text-lg font-semibold">
-                  <span className="mr-2 rounded-md bg-black/60 px-2 py-1">⚡</span>
-                  FOCO
-                </div>
-                <div className="absolute bottom-10 left-0 right-0 text-center">
-                  <h2 className="text-xl font-medium">Suas tarefas, seu controle.</h2>
-                  <p className="mt-2 text-xs text-zinc-400">Projeto do hackathon</p>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* LADO ESQUERDO – CARD FIEL AO FIGMA */}
+          <AuthSideCard />
 
           {/* FORMULÁRIO */}
           <section className="mt-6 md:mt-0 md:flex md:flex-col md:justify-center">
             <header className="mb-8">
               <div className="mb-8 md:hidden text-lg font-semibold">⚡ FOCO</div>
-              <h1 className="text-3xl font-semibold tracking-tight">Entrar na conta</h1>
+              <h1 className="text-3xl font-semibold tracking-tight">
+                Entrar na conta
+              </h1>
               <p className="mt-1 text-sm text-zinc-400">
                 Você não tem uma conta?{" "}
-                <Link href="/register" className="text-[#b6ff00] hover:underline">
+                <Link
+                  href="/register"
+                  className="text-[#b6ff00] hover:underline"
+                >
                   Registrar-se
                 </Link>
               </p>

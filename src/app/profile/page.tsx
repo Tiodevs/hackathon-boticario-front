@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import StatCard from '@/components/ui/StatCard';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import Footer from '@/components/ui/Footer';
+import Header from '@/components/ui/Header';
 
 
 
@@ -39,12 +41,10 @@ export default function ProfilePage() {
   return (
     <ProtectedRoute>
     <div>
+      <Header />
       <><div className="min-h-screen bg-[#0A0A0A] text-white px-5 py-12 flex flex-col gap-14">
         <header className="flex items-center justify-center gap-10">
-          <div className="flex items-center gap-2">
-            <Image src="/list-todo 1.svg" alt="Ícone FOCO" width={40} height={40} />
-            <Image src="/FOCO.svg" alt="Logo FOCO" height={40} width={100} />
-          </div>
+          
         </header>
 
         <div className="flex flex-col items-center gap-9">
@@ -73,7 +73,7 @@ export default function ProfilePage() {
             onChange={handleFileChange} />
         </div>
 
-        <Link href="/configuracoes" passHref>
+        <Link href="/settings" passHref>
           <button className="w-full h-[53px] px-5 flex items-center justify-center rounded-xl border border-[#303030] bg-[#121212]">
             <span className="text-lg font-medium font-barlow">Configurações</span>
           </button>
@@ -85,6 +85,7 @@ export default function ProfilePage() {
             <StatCard />
           </div>
         </section></>
+        <Footer />
     </div>
     </ProtectedRoute>
   );

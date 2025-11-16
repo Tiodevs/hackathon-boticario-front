@@ -3,31 +3,51 @@ import Link from "next/link";
 
 export default function Header() {
     return (
-        <div className="flex w-full max-w-[1042px] p-3.5 pl-10 justify-between items-center rounded-[87px] border border-[#303030] bg-[#121212]">
+        <div
+            className="
+                flex items-center border border-[#303030] bg-[#121212] rounded-[87px]
+                
+                /* --- MOBILE --- */
+                mx-auto mt-4 p-2
+                w-auto                    /* 🟢 se ajusta ao conteúdo */
+                justify-center            /* 🟢 ícones centralizados */
+                
+                /* --- DESKTOP --- */
+                md:w-full md:max-w-[1042px]
+                md:px-10 md:py-3.5
+                md:justify-between
+            "
+        >
 
-
-            {/* Logo FOCO */}
-            <div className="flex items-center gap-2">
+            {/* Logo (aparece apenas no desktop) */}
+            <div className="hidden md:flex items-center gap-2">
                 <Image src="/list-todo 1.svg" alt="" width={32} height={32} />
                 <Image src="/FOCO.svg" alt="" width={91} height={20} />
             </div>
 
-
-            <nav className="flex items-center gap-6 rounded-87 p-2.5">
-
-                <button className="flex p-0 rounded-full border-none bg-transparent cursor-pointer hover:bg-yellow-400/10 transition w-8 h-8 items-center justify-center">
-                    <Image src="/frame 6.svg" alt="Ícone menu" width={32} height={32} />
+            {/* ÍCONES (mobile: centralizados e com container que se ajusta) */}
+            <nav
+                className="
+                    flex items-center gap-5
+                    p-0
+                
+                    /* Ajuste para tamanho perfeito no mobile */
+                    scale-90
+                
+                    md:scale-100 md:p-2.5
+                "
+            >
+                <button className="flex w-8 h-8 items-center justify-center rounded-full hover:bg-yellow-400/10 transition">
+                    <Image src="/frame 6.svg" width={32} height={32} alt="Menu" />
                 </button>
 
-                <button className="flex p-0 rounded-full border-none bg-transparent cursor-pointer hover:bg-yellow-400/10 transition w-8 h-8 items-center justify-center">
-
-                    <Image src="/frame 4.svg" alt="Frame 4" width={32} height={32} />
+                <button className="flex w-8 h-8 items-center justify-center rounded-full hover:bg-yellow-400/10 transition">
+                    <Image src="/frame 4.svg" width={32} height={32} alt="Config" />
                 </button>
-
 
                 <Link href="/profile">
-                    <button className="flex p-0 rounded-full border-none bg-transparent cursor-pointer hover:bg-yellow-400/10 transition w-8 h-8 items-center justify-center">
-                        <Image src="/frame 7.svg" alt="Perfil" width={32} height={32} />
+                    <button className="flex w-8 h-8 items-center justify-center rounded-full hover:bg-yellow-400/10 transition">
+                        <Image src="/frame 7.svg" width={32} height={32} alt="Perfil" />
                     </button>
                 </Link>
             </nav>

@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import StatCard from '@/components/ui/StatCard';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 
 
@@ -36,6 +37,7 @@ export default function ProfilePage() {
   }
 
   return (
+    <ProtectedRoute>
     <div>
       <><div className="min-h-screen bg-[#0A0A0A] text-white px-5 py-12 flex flex-col gap-14">
         <header className="flex items-center justify-center gap-10">
@@ -84,5 +86,6 @@ export default function ProfilePage() {
           </div>
         </section></>
     </div>
+    </ProtectedRoute>
   );
 }

@@ -45,7 +45,7 @@ export default function ProjectsPage() {
       }
     } catch (error) {
       console.error("Erro ao salvar projeto:", error);
-      
+
     } finally {
       setLoading(false);
     }
@@ -115,12 +115,12 @@ export default function ProjectsPage() {
 
         {/* Overlay */}
         {showModal && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[998]" />
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[998" />
         )}
 
         {/* Modal */}
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center z-[999]">
+          <div className="fixed inset-0 flex items-center justify-center z-999">
             <div className="bg-[#191919] rounded-2xl shadow-xl px-8 py-10 w-[90vw] max-w-lg">
 
               <h2 className="mb-6 text-white text-center font-bold text-xl">

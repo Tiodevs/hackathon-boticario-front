@@ -25,3 +25,83 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.settings-option {
+  display: flex;
+  height: 53px;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1px solid #303030;
+  background: #121212;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-option:hover {
+  background: #1A1A1A;
+  border-color: #404040;
+}
+
+.settings-option-text {
+  align-self: stretch;
+  color: #FFF;
+  font-family: Barlow, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.settings-option-danger {
+  display: flex;
+  height: 53px;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1px solid #FF073A;
+  background: #121212;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-option-danger:hover {
+  background: #1A0A0A;
+  border-color: #FF1A4A;
+}
+
+.settings-option-text-danger {
+  align-self: stretch;
+  color: #FF073A;
+  font-family: Barlow, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.social-icon {
+  display: flex;
+  height: 48px;
+  padding: 8px 17px 8px 16px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid #3B3B3B;
+  background: #0A0A0A;
+}
+
+.social-icon-square {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid #3B3B3B;
+  background: #0A0A0A;
+}

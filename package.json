@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "next": "16.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0"
@@ -21,10 +22,13 @@
     "@storybook/addon-a11y": "^10.0.7",
     "@storybook/addon-docs": "^10.0.7",
     "@storybook/addon-vitest": "^10.0.7",
+    "@storybook/nextjs-vite": "^10.0.7",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/browser-playwright": "^4.0.8",
+    "@vitest/coverage-v8": "^4.0.8",
     "autoprefixer": "^10.4.22",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
@@ -32,15 +36,12 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-storybook": "^10.0.7",
+    "playwright": "^1.56.1",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "storybook": "^10.0.7",
     "tailwindcss": "^4.1.17",
     "typescript": "^5",
-    "@storybook/nextjs-vite": "^10.0.7",
-    "vitest": "^4.0.8",
-    "playwright": "^1.56.1",
-    "@vitest/browser-playwright": "^4.0.8",
-    "@vitest/coverage-v8": "^4.0.8"
+    "vitest": "^4.0.8"
   }
 }

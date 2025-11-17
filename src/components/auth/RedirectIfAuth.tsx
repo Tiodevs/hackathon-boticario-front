@@ -16,7 +16,7 @@ export function RedirectIfAuth({ children }: RedirectIfAuthProps) {
   useEffect(() => {
     if (isLoading) return;
     if (isAuthenticated) {
-      router.replace("/projects");
+      router.replace("/dashboard");
     }
   }, [isAuthenticated, isLoading, router]);
 

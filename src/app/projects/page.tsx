@@ -58,7 +58,7 @@ export default function ProjectsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="relative min-h-scree bg-black flex flex-col justify-between font-sans">
+     <div className="relative min-h-screen bg-black flex flex-col font-sans">
 
         <div className="flex flex-col items-center gap-16 pt-6 px-4 md:px-24 sm:px-6 flex-1 w-full">
           <Header />
@@ -164,12 +164,9 @@ export default function ProjectsPage() {
             </section>
           </main>
         </div>
-
-        <Footer />
-
         {/* Overlay */}
         {showModal && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[998" />
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-998" />
         )}
 
         {/* Modal */}
@@ -219,6 +216,7 @@ export default function ProjectsPage() {
           </div>
         )}
       </div>
+      <Footer />
     </ProtectedRoute>
   );
 }

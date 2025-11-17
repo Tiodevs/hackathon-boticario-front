@@ -18,8 +18,10 @@
         "name": "next"
       }
     ],
+
+    "baseUrl": ".",               // ⬅️ ADICIONA ISTO
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]            // ⬅️ AJUSTA ISTO
     }
   },
   "include": [

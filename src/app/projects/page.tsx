@@ -58,53 +58,107 @@ export default function ProjectsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="relative min-h-screen bg-black flex flex-col justify-between font-sans">
+      <div className="relative min-h-scree bg-black flex flex-col justify-between font-sans">
 
         <div className="flex flex-col items-center gap-16 pt-6 px-4 md:px-24 sm:px-6 flex-1 w-full">
           <Header />
 
           <main className="flex flex-col items-start gap-4 w-full max-w-[1042px]">
 
-            <section className="flex w-full items-start gap-4 flex-wrap md:flex-nowrap">
-              <div className="flex w-full md:w-[803px] h-[51px] px-5 py-2.5 justify-between items-center gap-7 rounded-lg border border-[#212528] bg-white">
-                <input
-                  type="text"
-                  placeholder="Pesquise aqui"
-                  className="grow border-none outline-none text-black text-lg font-medium placeholder:text-black/50"
-                />
-              </div>
+            
+            {projetos.length > 0 && (
+              <section className="flex w-full items-start gap-4 flex-wrap md:flex-nowrap">
+                <div className="flex w-full md:w-[803px] h-[51px] px-5 py-2.5 justify-between items-center gap-7 rounded-lg border border-[#212528] bg-white">
+                  <input
+                    type="text"
+                    placeholder="Pesquise aqui"
+                    className="grow border-none outline-none text-black text-lg font-medium placeholder:text-black/50"
+                  />
+                </div>
 
-              <button
-                onClick={() => setShowModal(true)}
-                className="w-full md:w-[221px] h-[51px] bg-[#C3EC1D] text-black font-medium text-lg rounded-lg hover:opacity-90 transition"
-              >
-                Adicionar projeto
-              </button>
-            </section>
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="w-full md:w-[221px] h-[51px] bg-[#C3EC1D] text-black font-medium text-lg rounded-lg hover:opacity-90 transition"
+                >
+                  Adicionar projeto
+                </button>
+              </section>
+            )}
 
             <section className="flex flex-col items-start gap-9 w-full">
               <h1 className="text-white font-medium text-[36px]">Projetos</h1>
 
               <div className="flex flex-col items-start gap-4 w-full">
 
-                {projetos.map((proj) => (
-                  <div
-                    key={proj.id}
-                    className="p-7 flex flex-col gap-2.5 w-full rounded-lg border border-[#303030] bg-[#121212] hover:border-[#C3EC1D] transition"
-                  >
-                    <div className="flex items-center w-full">
-                      <h2 className="text-white font-semibold text-[27px]">{proj.titulo}</h2>
-                      <button
-                        className="ml-auto text-red-400 hover:text-red-600 text-xl transition"
-                        onClick={() => handleDelete(proj.id)}
-                        title="Excluir projeto"
-                      >
-                        🗑️
-                      </button>
+                {projetos.length === 0 ? (
+                  // Estado vazio
+                  <div className="relative w-full flex flex-col items-center justify-center py-12 px-6 rounded-xl border-2 border-dashed border-[#303030] bg-[#0a0a0a]">
+                    
+                    
+                    <div className="mb-4 text-5xl animate-bounce">
+                      📋
                     </div>
-                    <p className="text-gray-400 text-base">{proj.descricao}</p>
+
+                    
+                    <h2 className="text-white font-semibold text-xl mb-2 text-center">
+                      Nenhum projeto criado ainda
+                    </h2>
+
+                    
+                    <p className="text-gray-400 text-base text-center max-w-md mb-6">
+                      Que tal criar seu primeiro projeto?{' '}
+                      <span className="text-[#C3EC1D] font-medium animate-pulse">
+                        É rápido e fácil! ✨
+                      </span>
+                    </p>
+
+                    
+                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-6">
+                      <span>💡</span>
+                      <span>Use projetos para organizar suas tarefas</span>
+                    </div>
+
+                    {/* Botão de ação */}
+                    <button
+                      onClick={() => setShowModal(true)}
+                      className="group relative px-6 py-3 bg-[#C3EC1D] text-black font-semibold text-base rounded-lg hover:scale-105 transition-all duration-300"
+                    >
+                      <span className="flex items-center gap-2">
+                        ➕ Criar Primeiro Projeto
+                        <span className="inline-block group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
+                      </span>
+                    </button>
+
+                    {/* Decoração sutil */}
+                    <div className="absolute top-2 right-2 text-[#C3EC1D]/10 text-4xl">
+                      ✨
+                    </div>
                   </div>
-                ))}
+                ) : (
+                  // LISTA DE PROJETOS
+                  <>
+                    {projetos.map((proj) => (
+                      <div
+                        key={proj.id}
+                        className="p-7 flex flex-col gap-2.5 w-full rounded-lg border border-[#303030] bg-[#121212] hover:border-[#C3EC1D] transition"
+                      >
+                        <div className="flex items-center w-full">
+                          <h2 className="text-white font-semibold text-[27px]">{proj.titulo}</h2>
+                          <button
+                            className="ml-auto text-red-400 hover:text-red-600 text-xl transition"
+                            onClick={() => handleDelete(proj.id)}
+                            title="Excluir projeto"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                        <p className="text-gray-400 text-base">{proj.descricao}</p>
+                      </div>
+                    ))}
+                  </>
+                )}
 
               </div>
             </section>

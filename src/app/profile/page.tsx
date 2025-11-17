@@ -1,52 +1,66 @@
 'use client';
 import { useRef, useState, useEffect } from 'react';
-import Link from 'next/link';
 import StatCard from '@/components/ui/StatCard';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import Footer from '@/components/ui/Footer';
 import Header from '@/components/ui/Header';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface UserProfile {
   nome: string;
+  email: string;
 }
 
 export default function ProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Dados
   const [profileImg, setProfileImg] = useState<string | null>(null);
+  const [nomeCompleto, setNomeCompleto] = useState<string>('');
   const [primeiroNome, setPrimeiroNome] = useState<string>('');
-  const [projetos, setProjetos] = useState<number>(0);
-  const [tarefas, setTarefas] = useState<number>(0);
+  const [email, setEmail] = useState<string>('');
+  const [projetos, setProjetos] = useState<any[]>([]);
+  const [tarefas, setTarefas] = useState<any[]>([]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editNome, setEditNome] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const router = useRouter();
+
   useEffect(() => {
-    // Foto do localStorage SEMPRE que montar componente
     const savedImg = localStorage.getItem('profileImage');
     if (savedImg) setProfileImg(savedImg);
-
-    // Nome do usuário autenticado
     fetch('/api/auth/me')
       .then(res => res.ok ? res.json() : null)
       .then((data: UserProfile | null) => {
-        if (data?.nome) setPrimeiroNome(data.nome.split(' ')[0]);
+        if (data?.nome) {
+          setNomeCompleto(data.nome);
+          setPrimeiroNome(data.nome.split(' ')[0]);
+          setEditNome(data.nome);
+        }
+        if (data?.email) setEmail(data.email), setEditEmail(data.email);
       });
 
-    // Total de projetos
-    fetch('/api/projects')
-      .then(res => res.ok ? res.json() : [])
-      .then(arr => setProjetos(Array.isArray(arr) ? arr.length : 0));
+    // Projetos
+    const storedProjects = localStorage.getItem("projetos");
+    if (storedProjects) setProjetos(JSON.parse(storedProjects));
+    // Tarefas
+    const storedTasks = localStorage.getItem("tarefas");
+    if (storedTasks) setTarefas(JSON.parse(storedTasks));
 
-    // Total de tarefas
-    fetch('/api/tasks')
-      .then(res => res.ok ? res.json() : [])
-      .then(arr => setTarefas(Array.isArray(arr) ? arr.length : 0));
+    // Se preferir via API, troque os dois blocos acima por:
+    // fetch('/api/projects').then(res => res.ok ? res.json() : []).then(arr => setProjetos(Array.isArray(arr) ? arr : []));
+    // fetch('/api/tasks').then(res => res.ok ? res.json() : []).then(arr => setTarefas(Array.isArray(arr) ? arr : []));
   }, []);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
-      const fileURL = URL.createObjectURL(file);
-      setProfileImg(fileURL);
-      localStorage.setItem('profileImage', fileURL);
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const base64img = event.target?.result as string;
+        setProfileImg(base64img);
+        localStorage.setItem('profileImage', base64img);
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -54,16 +68,28 @@ export default function ProfilePage() {
     fileInputRef.current?.click();
   }
 
-  // Exemplo de variação para o mês, ajuste conforme back futuramente
-  const variacaoProjetos = 11.01;
-  const variacaoTarefas = -4;
+  function handleSalvarAlteracoes() {
+    setNomeCompleto(editNome);
+    setEmail(editEmail);
+    setShowEditModal(false);
+  }
+
+  const variacaoProjetos = 0; // ajuste se quiser variação real
+  const variacaoTarefas = 0;
 
   return (
     <ProtectedRoute>
       <div>
         <Header />
         <div className="min-h-screen bg-[#0A0A0A] text-white px-5 py-12 flex flex-col gap-10">
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-3 relative">
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="absolute -top-4 right-4 md:right-120 md:top-6 hidden sm:block"
+              title="Editar perfil"
+            >
+              <Image src="/settings.svg" alt="settings" height={32} width={32} />
+            </button>
             {profileImg ? (
               <img
                 src={profileImg}
@@ -81,7 +107,6 @@ export default function ProfilePage() {
                 clique para adicionar imagem
               </button>
             )}
-
             <input
               ref={fileInputRef}
               type="file"
@@ -89,35 +114,86 @@ export default function ProfilePage() {
               className="hidden"
               onChange={handleFileChange}
             />
-
             <p className="mt-2 text-xl font-semibold font-barlow text-white">
-              {primeiroNome}
+              {nomeCompleto}
             </p>
-          </div>
-
-          <div className="flex justify-center w-full mb-8">
-            <Link href="/settings" passHref>
-              <button className="h-10 px-6 flex items-center justify-center rounded-xl border border-[#303030] bg-[#121212]">
-                <span className="text-base font-medium font-barlow">Configurações</span>
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="mt-3 h-10 px-7 flex items-center justify-center rounded-xl border border-[#303030] bg-[#303030] text-white"
+            >
+              <span className="text-base font-medium font-barlow">Editar perfil</span>
+            </button>
+            <div className="mt-2 block sm:hidden w-full flex justify-center">
+              <button
+                className="h-10 rounded-xl border border-[#303030] bg-[#303030] text-white w-full max-w-36"
+                onClick={() => setShowEditModal(true)}
+              >
+                Configurações
               </button>
-            </Link>
+            </div>
           </div>
-
-          <section className="flex-1 w-full flex flex-col md:flex-row items-center justify-center gap-7">
-          <StatCard
-  titulo="Projetos Criados"
-  valor={projetos}
-  variacao={variacaoProjetos}
-  variacaoPositiva={variacaoProjetos > 0}
-/>
-<StatCard
-  titulo="Tarefas Criadas"
-  valor={tarefas}
-  variacao={variacaoTarefas}
-  variacaoPositiva={variacaoTarefas > 0}
-/>
-
+          {/* DASHBOARD */}
+          <section className="w-full flex flex-col md:flex-row items-center justify-center gap-7">
+            <StatCard
+              titulo="Projetos Criados"
+              valor={projetos.length}
+              variacao={variacaoProjetos}
+              variacaoPositiva={variacaoProjetos >= 0}
+            />
+            <StatCard
+              titulo="Tarefas Criadas"
+              valor={tarefas.length}
+              variacao={variacaoTarefas}
+              variacaoPositiva={variacaoTarefas >= 0}
+            />
           </section>
+
+          {showEditModal && (
+            <>
+              <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-998" />
+              <div className="fixed inset-0 flex items-center justify-center z-999">
+                <div className="bg-[#191919] rounded-2xl shadow-xl px-8 py-10 w-[90vw] max-w-lg">
+                  <h2 className="mb-6 text-white text-center font-bold text-xl">Editar perfil</h2>
+                  <form className="flex flex-col gap-4" onSubmit={e => { e.preventDefault(); handleSalvarAlteracoes(); }}>
+                    <label className="flex flex-col gap-1 text-sm text-white">
+                      Nome
+                      <input
+                        type="text"
+                        value={editNome}
+                        onChange={e => setEditNome(e.target.value)}
+                        className="w-full px-4 py-2 rounded bg-white text-black"
+                        required
+                      />
+                    </label>
+                    <label className="flex flex-col gap-1 text-sm text-white">
+                      Email
+                      <input
+                        type="email"
+                        value={editEmail}
+                        onChange={e => setEditEmail(e.target.value)}
+                        className="w-full px-4 py-2 rounded bg-white text-black"
+                        required
+                      />
+                    </label>
+                    <button
+                      type="submit"
+                      className="w-full h-11 rounded bg-[#C3EC1D] text-black font-semibold hover:opacity-90 transition"
+                    >
+                      Salvar alterações
+                    </button>
+                    <button
+                      type="button"
+                      className="w-full h-11 rounded bg-[#303030] text-white"
+                      onClick={() => setShowEditModal(false)}
+                    >
+                      Cancelar
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </>
+          )}
+
         </div>
         <Footer />
       </div>

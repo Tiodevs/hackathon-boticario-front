@@ -1,6 +1,6 @@
 interface StatCardProps {
   titulo: string;
-  valor: number; // Passa a quantidade de projetos ou tarefas aqui!
+  valor: number;
   variacao: number;
   variacaoPositiva: boolean;
 }
@@ -11,7 +11,6 @@ export default function StatCard({ titulo, valor, variacao, variacaoPositiva }: 
       <span className="text-base font-medium text-white mb-1">{titulo}</span>
       <div className="flex items-end gap-3">
         <span className="text-3xl font-bold text-white">{valor}</span>
-        
       </div>
     </div>
   );

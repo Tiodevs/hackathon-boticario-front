@@ -32,7 +32,7 @@ const [isModalOpen, setModalOpen] = useState(false);
       <div className="min-h-screen bg-[#0A0A0A] flex flex-col justify-between">
 
         {/* Main Content */}
-        <main className="flex flex-col items-center gap-9 w-full max-w-[1042px] px-5 mx-auto">
+        <main className="flex flex-col items-center gap-9 w-full max-w-[1042px] px-5 mx-auto mt-25">
           {profileImg ? (
             <img
               src={profileImg}
@@ -44,10 +44,6 @@ const [isModalOpen, setModalOpen] = useState(false);
           )}
 
           <div className="flex flex-col items-start gap-2 w-full max-w-[360px]">
-            <button onClick={() => setModalOpen(true)} className="settings-option">
-  <span className="settings-option-text">Editar perfil</span>
-</button>
-<EditProfileModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} user={user} />
 
             <button className="settings-option">
               <span className="settings-option-text">Suporte</span>
